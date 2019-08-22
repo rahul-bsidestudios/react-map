@@ -1,0 +1,24 @@
+.filters {
+  padding-top: 15px;
+}
+
+.filters .buttons button {
+  margin-right: 5px;
+}
+
+.filters .form-group {
+  position: relative;
+}
+
+.filters .last-control {
+  margin-bottom: 70px;
+  margin-top: 30px;
+}
+
+.filters .results {
+  margin-bottom: 10px;
+}
+
+.filters .error {
+  margin-bottom: 10px;
+}
