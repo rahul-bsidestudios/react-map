@@ -4,21 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './autoComplete.css';
 
 const MapboxAutoComplete = (props) => {
-  const [ error, setError ] = useState(false);
-  const [ errorMsg, setErrorMessage ] = useState('');
-  const [ queryResults, setQueryResults ] = useState([]);
-  const [ publicKey ] = useState(props.publicKey);
+  const [error, setError] = useState(false);
+  const [errorMsg, setErrorMessage] = useState('');
+  const [queryResults, setQueryResults] = useState([]);
+  const [publicKey] = useState(props.publicKey);
 
   const updateQuery = event => {
     props.onChange(event);
     const header = { 'Content-Type': 'application/json' };
     let path = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + event.target.value + '.json?access_token=' + publicKey;
 
-    if(props.country) {
+    if (props.country) {
       path = 'https://api.mapbox.com/geocoding/v5/mapbox.places/' + event.target.value + '.json?access_token=' + publicKey + '&country=' + props.country;
     }
 
-    if(event.target.value.length > 2) {
+    if (event.target.value.length > 2) {
       return fetch(path, {
         headers: header,
       }).then(res => {
@@ -55,14 +55,14 @@ const MapboxAutoComplete = (props) => {
 
   return (
     <div>
-      <input placeholder={ props.placeholder || 'Search' }
+      <input placeholder={props.placeholder || 'Search'}
         id={props.inputId}
-        onClick={props.inputOnClick} 
+        onClick={props.inputOnClick}
         onBlur={props.inputOnBlur}
         onFocus={props.inputOnFocus}
         className={props.inputClass ?
-                  props.inputClass + ' react-mapbox-ac-input'
-                  : 'react-mapbox-ac-input'}
+          props.inputClass + ' react-mapbox-ac-input'
+          : 'react-mapbox-ac-input'}
         onChange={updateQuery.bind(this)}
         value={props.query}
         type='text'
@@ -78,18 +78,18 @@ const MapboxAutoComplete = (props) => {
       <span>
         <div className='react-mapbox-ac-menu'
           style={queryResults.length > 0 || error ? { display: 'block' }
-          : { display: 'none' }}
+            : { display: 'none' }}
           onClick={resetSearch}>
           {
             queryResults.map((place, i) => {
-              return(
+              return (
                 <div className='react-mapbox-ac-suggestion'
-                      onClick={onSuggestionSelect}
-                      key={i}
-                      data-suggestion={place.place_name}
-                      data-lng={place.center[0]}
-                      data-lat={place.center[1]}
-                      data-text={place.text}>
+                  onClick={onSuggestionSelect}
+                  key={place.place_name}
+                  data-suggestion={place.place_name}
+                  data-lng={place.center[0]}
+                  data-lat={place.center[1]}
+                  data-text={place.text}>
 
                   {place.place_name}
 

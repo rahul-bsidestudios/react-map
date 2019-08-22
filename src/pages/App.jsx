@@ -5,7 +5,7 @@ import Map from '../components/map';
 import './app.css';
 
 const convertPath = path => {
-  let arr = [];
+  const arr = [];
   path.map(item => {
     return arr.push([parseFloat(item[1]), parseFloat(item[0])]);
   });
@@ -13,16 +13,15 @@ const convertPath = path => {
 }
 
 const App = (props) => {
-  const [ loading, setLoading ] = useState(false);
-  const [ path, setPath ] = useState(null);
-  const [ origin, setOrigin ] = useState('');
-  const [ destination, setDestination ] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [path, setPath] = useState(null);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
 
-  const createPath = (path, origin, destination) => {
-    setPath(convertPath(path));
-    setOrigin(origin);
-    setDestination(destination);
-    console.log(convertPath(path));
+  const createPath = (_path, _origin, _destination) => {
+    setPath(convertPath(_path));
+    setOrigin(_origin);
+    setDestination(_destination);
   }
 
   const clear = () => {
@@ -34,7 +33,7 @@ const App = (props) => {
     <div className="container-fluid">
       <div className="row">
         <div className="col-sm-4">
-          <Filters 
+          <Filters
             setLoading={setLoading.bind(this)}
             clear={clear.bind(this)}
             createPath={createPath.bind(this)}

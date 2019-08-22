@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { post, get } from '../../services';
 import MapboxAutoComplete from '../../components/autoComplete';
 import { MAPBOX_KEY } from '../../config';
 import './filters.css';
 
 const Filters = (props) => {
-  const [ origin, setOrigin ] = useState('');
-  const [ destination, setDestination ] = useState('');
-  const [ error, setError ] = useState('');
-  const [ distance, setDistance ] = useState('');
-  const [ duration, setDuration ] = useState('');
-  const [ loading, setLoading ] = useState(false);
-  const [ submitted, setSubmitted ] = useState(false);
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
+  const [error, setError] = useState('');
+  const [distance, setDistance] = useState('');
+  const [duration, setDuration] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const resetResults = () => {
     setDuration('');
@@ -29,12 +30,12 @@ const Filters = (props) => {
   const getDistanceAndPath = async (token) => {
     try {
       const response = await get(token);
-      if(response.status === 'in progress') {
+      if (response.status === 'in progress') {
         return getDistanceAndPath(token);
       }
       setLoading(false);
       props.setLoading(false);
-      if(response.status === 'success') {
+      if (response.status === 'success') {
         setDistance(response.total_distance);
         setDuration(response.total_time);
         props.createPath(response.path, origin, destination);
@@ -44,7 +45,6 @@ const Filters = (props) => {
       }
     }
     catch (err) {
-      console.log(err);
       setLoading(false);
       props.setLoading(false);
       setError(err.message);
@@ -54,15 +54,14 @@ const Filters = (props) => {
   const submit = async () => {
     resetResults();
     setSubmitted(true);
-    if(!origin || !destination) {
+    if (!origin || !destination) {
       return;
     }
     setLoading(true);
     props.setLoading(true);
     try {
       const result = await post(origin, destination);
-      console.log(result);
-      if(result.token) {
+      if (result.token) {
         getDistanceAndPath(result.token);
       }
       else {
@@ -70,8 +69,7 @@ const Filters = (props) => {
         props.setLoading(false);
       }
     }
-    catch(err) {
-      console.log(err);
+    catch (err) {
       setError(err.message);
       setLoading(false);
       props.setLoading(false);
@@ -149,6 +147,12 @@ const Filters = (props) => {
       </div>
     </div>
   );
+}
+
+Filters.propTypes = {
+  clear: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  createPath: PropTypes.func.isRequired
 }
 
 export default Filters;
