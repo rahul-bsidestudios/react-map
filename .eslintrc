@@ -17,7 +17,11 @@
     "Blob": true,
     "navigator": true,
     "process": true,
-    "fetch": true
+    "fetch": true,
+    "beforeAll": true,
+    "jest": true,
+    "test": true,
+    "expect": true
   },
   "rules": {
     "prefer-const": 1,

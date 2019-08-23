@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Filters from '../components/filters';
-import Loader from '../components/loader';
-import Map from '../components/map';
+import Filters from '../../components/filters';
+import Loader from '../../components/loader';
+import Map from '../../components/map';
 import './app.css';
 
 /**
@@ -47,6 +47,7 @@ const App = (props) => {
    */
   return (
     <div className="container-fluid">
+      {loading && <Loader />}
       <div className="row">
         <div className="col-sm-4">
           <Filters
@@ -56,7 +57,6 @@ const App = (props) => {
           />
         </div>
         <div className="col-sm-8">
-          {loading && <Loader />}
           <Map path={path} origin={origin} destination={destination} />
         </div>
       </div>

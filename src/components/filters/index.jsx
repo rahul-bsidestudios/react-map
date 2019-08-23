@@ -177,7 +177,6 @@ const Filters = (props) => {
       <div className="text-danger error">{error}</div>
       <div className="buttons">
         <button className="btn btn-primary" type="button" disabled={loading} onClick={submit.bind(this)}>
-          {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>}
           {!loading && ((error || distance) ? 'Re-Submit' : 'Submit')}
           {loading && 'Loading'}
         </button>
