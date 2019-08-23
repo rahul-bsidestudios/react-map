@@ -6,6 +6,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - HTML5
 - CSS3
 - Bootstrap 4
+- ES6
 
 ## Installation
 
@@ -13,11 +14,15 @@ npm install
 
 ## Change Api Url in src/config.js file
 
+```
 API_URL = <URL>
+```
 
 ## Add a `.env` file with the following:
 
+```
 REACT_APP_MAPBOX_KEY = <api-key>
+```
 
 ## Available Scripts
 
