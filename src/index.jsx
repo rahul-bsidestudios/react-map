@@ -6,6 +6,9 @@ import App from './pages/App.jsx';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 
+/**
+ * @description add cross icon in font awesome library
+ */
 library.add(faTimes, faKey);
 
 render(<App />, document.getElementById('root'));

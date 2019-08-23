@@ -9,6 +9,10 @@ const MapboxAutoComplete = (props) => {
   const [queryResults, setQueryResults] = useState([]);
   const [publicKey] = useState(props.publicKey);
 
+  /**
+   * @description fetch maching results through mapbox api
+   * @param {object} event 
+   */
   const updateQuery = event => {
     props.onChange(event);
     const header = { 'Content-Type': 'application/json' };
@@ -37,22 +41,34 @@ const MapboxAutoComplete = (props) => {
       setError(false);
     }
   }
-
+  /**
+   * @description reset query results
+   */
   const resetSearch = () => {
     setQueryResults([]);
   }
 
+  /**
+   * @description pass the selected value
+   * @param {object} event 
+   */
   const onSuggestionSelect = event => {
     props.onSuggestionSelect(
       event.target.getAttribute('data-suggestion')
     )
   }
 
+  /**
+   * @description clear search results and the text field
+   */
   const clearSearch = () => {
     setQueryResults([]);
     props.clear();
   }
 
+  /**
+   * @description render the html for autocomplete
+   */
   return (
     <div>
       <input placeholder={props.placeholder || 'Search'}

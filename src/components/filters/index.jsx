@@ -14,6 +14,9 @@ const Filters = (props) => {
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
+  /**
+   * @description reset the results and error
+   */
   const resetResults = () => {
     setDuration('');
     setDistance('');
@@ -21,12 +24,19 @@ const Filters = (props) => {
     props.clear();
   }
 
+  /**
+   * @description clear the origin and destination text fields and reset results
+   */
   const reset = () => {
     setOrigin('');
     setDestination('');
     resetResults();
   }
 
+  /**
+   * @description get the distance and time through the api and passing the path
+   * @param {string} token 
+   */
   const getDistanceAndPath = async (token) => {
     try {
       const response = await get(token);
@@ -51,6 +61,9 @@ const Filters = (props) => {
     }
   }
 
+  /**
+   * @description fetch the token
+   */
   const submit = async () => {
     resetResults();
     setSubmitted(true);
@@ -76,36 +89,61 @@ const Filters = (props) => {
     }
   }
 
+  /**
+   * @description clear origin input
+   */
   const clearOrigin = () => {
     setOrigin('');
     resetResults();
   }
 
+  /**
+   * @description clear destination input
+   */
   const clearDestination = () => {
     setDestination('');
     resetResults();
   }
 
+  /**
+   * @description set origin
+   * @param {string} result 
+   */
   const originSelect = (result) => {
     setOrigin(result);
   }
 
+  /**
+   * @description set destination
+   * @param {string} result 
+   */
   const destinationSelect = (result) => {
     setDestination(result);
   }
 
+  /**
+   * @description set origin
+   * @param {object} e 
+   */
   const changeOrigin = (e) => {
     setOrigin(e.target.value);
     setSubmitted(false);
   }
 
+  /**
+   * @description set destination
+   * @param {object} e 
+   */
   const changeDestination = (e) => {
     setDestination(e.target.value);
     setSubmitted(false);
   }
 
+  /**
+   * @description render the form
+   */
   return (
-    <div className="filters">
+    <form className="filters">
       <div className="form-group">
         <label>Starting location</label>
         <MapboxAutoComplete publicKey={MAPBOX_KEY}
@@ -145,7 +183,7 @@ const Filters = (props) => {
         </button>
         <button type="button" className="btn btn-secondary" disabled={loading} onClick={reset.bind(this)}>Reset</button>
       </div>
-    </div>
+    </form>
   );
 }
 

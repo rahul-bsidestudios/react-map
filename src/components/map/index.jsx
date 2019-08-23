@@ -10,6 +10,10 @@ const Mapbox = ReactMapboxGl({
 
 const Map = (props) => {
   const center = [114.1576900, 22.2855200];
+
+  /**
+   * @description render map using mapbox
+   */
   return (
     <Mapbox
       center={center}

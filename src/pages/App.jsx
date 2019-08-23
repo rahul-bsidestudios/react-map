@@ -4,6 +4,10 @@ import Loader from '../components/loader';
 import Map from '../components/map';
 import './app.css';
 
+/**
+ * @description convert coordinaties into float values
+ * @param {object} path
+ */
 const convertPath = path => {
   const arr = [];
   path.map(item => {
@@ -18,17 +22,29 @@ const App = (props) => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
 
+  /**
+   * @description creat path and set origin and destination
+   * @param {object} _path 
+   * @param {string} _origin 
+   * @param {string} _destination 
+   */
   const createPath = (_path, _origin, _destination) => {
     setPath(convertPath(_path));
     setOrigin(_origin);
     setDestination(_destination);
   }
 
+  /**
+   * @description clear path
+   */
   const clear = () => {
     setPath(null);
     setLoading(false);
   }
 
+  /**
+   * @description render the application
+   */
   return (
     <div className="container-fluid">
       <div className="row">
