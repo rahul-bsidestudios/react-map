@@ -1,6 +1,8 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Route directions react app using mapbox
 
-## Technologies Used
+This app is created to get the route distance, time, and directions using third party api and then plot the route on the map.
+
+## Technologies used
 
 - React JS
 - HTML5
@@ -12,7 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 npm install
 
-## Change Api Url in src/config.js file
+## Change api url in src/config.js file
 
 ```
 API_URL = <URL>
@@ -24,7 +26,7 @@ API_URL = <URL>
 REACT_APP_MAPBOX_KEY = <api-key>
 ```
 
-## Available Scripts
+## Available scripts
 
 In the project directory, you can run:
 
