@@ -1,14 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import { MAPBOX_KEY } from '../../config';
+import { lineString, bbox } from '@turf/turf';
+import { MAPBOX_KEY } from '../../constants';
 
 const Mapbox = ReactMapboxGl({
   accessToken: MAPBOX_KEY
 });
 
 const Map = (props) => {
+  const [map, setMap] = useState(null);
   const center = [114.1576900, 22.2855200];
+  const zoom = [12];
+  const containerStyle = {
+    height: '100vh',
+    width: '100%'
+  };
+  const mapStyle = 'mapbox://styles/mapbox/streets-v8';
+
+  useEffect(() => {
+    if (props.path) {
+      const boundingBox = bbox(lineString(props.path));
+      map.fitBounds(boundingBox, { padding: 30 });
+    }
+  }, [map, props.path]);
+
+  const onMapLoaded = (mapObject) => {
+    setMap(mapObject);
+  }
 
   /**
    * @description render map using mapbox
@@ -16,12 +35,11 @@ const Map = (props) => {
   return (
     <Mapbox
       center={center}
+      zoom={zoom}
+      onStyleLoad={onMapLoaded.bind(this)}
       //eslint-disable-next-line
-      style='mapbox://styles/mapbox/streets-v8'
-      containerStyle={{
-        height: '100vh',
-        width: '100%'
-      }}>
+      style={mapStyle}
+      containerStyle={containerStyle}>
       {props.path && <Layer
         type="line"
         paint={{

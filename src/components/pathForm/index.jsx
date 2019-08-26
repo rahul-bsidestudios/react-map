@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { post, get } from '../../services';
-import MapboxAutoComplete from '../../components/autoComplete';
-import { MAPBOX_KEY } from '../../config';
-import './filters.css';
+import { getToken, getPath } from '../../services';
+import MapboxAutoComplete from '../autoComplete';
+import { SERVER_ERROR, RETRY_LIMIT, RETRY_LIMIT_ERROR } from '../../constants';
+import './pathForm.css';
 
-const Filters = (props) => {
+const PathForm = (props) => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [error, setError] = useState('');
+  const [attempts, setAttempts] = useState(0);
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   /**
@@ -28,6 +28,8 @@ const Filters = (props) => {
    * @description clear the origin and destination text fields and reset results
    */
   const reset = () => {
+    setSubmitted(false);
+    setAttempts(0);
     setOrigin('');
     setDestination('');
     resetResults();
@@ -39,11 +41,18 @@ const Filters = (props) => {
    */
   const getDistanceAndPath = async (token) => {
     try {
-      const response = await get(token);
+      const response = await getPath(token);
       if (response.status === 'in progress') {
-        return getDistanceAndPath(token);
+        if (attempts < RETRY_LIMIT) {
+          setAttempts(attempts + 1);
+          return getDistanceAndPath(token);
+        }
+        else {
+          props.setLoading(false);
+          setError(RETRY_LIMIT_ERROR);
+          return;
+        }
       }
-      setLoading(false);
       props.setLoading(false);
       if (response.status === 'success') {
         setDistance(response.total_distance);
@@ -55,9 +64,12 @@ const Filters = (props) => {
       }
     }
     catch (err) {
-      setLoading(false);
       props.setLoading(false);
-      setError(err.message);
+      if (err.message && err.message.indexOf('500') > -1) {
+        setError(SERVER_ERROR);
+      } else {
+        setError(err.message);
+      }
     }
   }
 
@@ -70,21 +82,23 @@ const Filters = (props) => {
     if (!origin || !destination) {
       return;
     }
-    setLoading(true);
     props.setLoading(true);
     try {
-      const result = await post(origin, destination);
+      const result = await getToken(origin, destination);
       if (result.token) {
+        setAttempts(0);
         getDistanceAndPath(result.token);
       }
       else {
-        setLoading(false);
         props.setLoading(false);
       }
     }
     catch (err) {
-      setError(err.message);
-      setLoading(false);
+      if (err.message && err.message.indexOf('500') > -1) {
+        setError(SERVER_ERROR);
+      } else {
+        setError(err.message);
+      }
       props.setLoading(false);
     }
   }
@@ -94,6 +108,7 @@ const Filters = (props) => {
    */
   const clearOrigin = () => {
     setOrigin('');
+    setAttempts(0);
     resetResults();
   }
 
@@ -102,6 +117,7 @@ const Filters = (props) => {
    */
   const clearDestination = () => {
     setDestination('');
+    setAttempts(0);
     resetResults();
   }
 
@@ -146,11 +162,10 @@ const Filters = (props) => {
     <form className="filters">
       <div className="form-group">
         <label>Starting location</label>
-        <MapboxAutoComplete publicKey={MAPBOX_KEY}
+        <MapboxAutoComplete
           inputClass='form-control search'
           onSuggestionSelect={originSelect}
           inputId='origin'
-          country='HK'
           clear={clearOrigin}
           query={origin}
           onChange={changeOrigin.bind(this)}
@@ -159,11 +174,10 @@ const Filters = (props) => {
       </div>
       <div className="form-group last-control">
         <label>Drop-off location</label>
-        <MapboxAutoComplete publicKey={MAPBOX_KEY}
+        <MapboxAutoComplete
           inputClass='form-control search'
           inputId='destination'
           onSuggestionSelect={destinationSelect}
-          country='HK'
           clear={clearDestination}
           query={destination}
           onChange={changeDestination.bind(this)}
@@ -174,22 +188,23 @@ const Filters = (props) => {
         <div>Total distance: {distance}</div>
         <div>Total time: {duration}</div>
       </div>}
-      <div className="text-danger error">{error}</div>
+      {error && <div className="text-danger error">{error}</div>}
       <div className="buttons">
-        <button className="btn btn-primary" type="button" disabled={loading} onClick={submit.bind(this)}>
-          {!loading && ((error || distance) ? 'Re-Submit' : 'Submit')}
-          {loading && 'Loading'}
+        <button className="btn btn-primary" type="button" disabled={props.loading} onClick={submit.bind(this)}>
+          {!props.loading && ((error || distance) ? 'Re-Submit' : 'Submit')}
+          {props.loading && 'Loading'}
         </button>
-        <button type="button" className="btn btn-secondary" disabled={loading} onClick={reset.bind(this)}>Reset</button>
+        <button type="button" className="btn btn-secondary" disabled={props.loading} onClick={reset.bind(this)}>Reset</button>
       </div>
     </form>
   );
 }
 
-Filters.propTypes = {
+PathForm.propTypes = {
   clear: PropTypes.func.isRequired,
   setLoading: PropTypes.func.isRequired,
-  createPath: PropTypes.func.isRequired
+  createPath: PropTypes.func.isRequired,
+  loading: PropTypes.bool
 }
 
-export default Filters;
+export default PathForm;

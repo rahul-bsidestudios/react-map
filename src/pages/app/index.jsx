@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Filters from '../../components/filters';
+import PathForm from '../../components/pathForm';
 import Loader from '../../components/loader';
 import Map from '../../components/map';
 import './app.css';
@@ -50,10 +50,11 @@ const App = (props) => {
       {loading && <Loader />}
       <div className="row">
         <div className="col-sm-4">
-          <Filters
+          <PathForm
             setLoading={setLoading.bind(this)}
             clear={clear.bind(this)}
             createPath={createPath.bind(this)}
+            loading={loading}
           />
         </div>
         <div className="col-sm-8">
