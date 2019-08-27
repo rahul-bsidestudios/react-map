@@ -17,13 +17,14 @@ const Map = (props) => {
     width: '100%'
   };
   const mapStyle = 'mapbox://styles/mapbox/streets-v8';
+  const { path, origin, destination } = props;
 
   useEffect(() => {
-    if (props.path && map) {
-      const boundingBox = bbox(lineString(props.path));
+    if (path && map) {
+      const boundingBox = bbox(lineString(path));
       map.fitBounds(boundingBox, { padding: 30 });
     }
-  }, [map, props.path]);
+  }, [map, path]);
 
   const onMapLoaded = (mapObject) => {
     setMap(mapObject);
@@ -40,27 +41,27 @@ const Map = (props) => {
       //eslint-disable-next-line
       style={mapStyle}
       containerStyle={containerStyle}>
-      {props.path && <Layer
+      {path && <Layer
         type="line"
         paint={{
           'line-color': '#4264fb',
           'line-width': 6
         }}
         id="path">
-        <Feature coordinates={props.path} />
+        <Feature coordinates={path} />
       </Layer>}
-      {props.path && <Layer
+      {path && <Layer
         type="symbol"
         id="marker"
         textField={props.origin}
-        layout={{ 'icon-image': 'marker-15', 'text-field': props.origin, 'text-size': 13, 'text-anchor': 'top' }}>
-        <Feature coordinates={props.path[0]} />
+        layout={{ 'icon-image': 'marker-15', 'text-field': origin, 'text-size': 13, 'text-anchor': 'top' }}>
+        <Feature coordinates={path[0]} />
       </Layer>}
       {props.path && <Layer
         type="symbol"
         id="marker1"
-        layout={{ 'icon-image': 'harbor-15', 'text-field': props.destination, 'text-size': 13, 'text-anchor': 'top' }}>
-        <Feature coordinates={props.path[props.path.length - 1]} />
+        layout={{ 'icon-image': 'harbor-15', 'text-field': destination, 'text-size': 13, 'text-anchor': 'top' }}>
+        <Feature coordinates={path[path.length - 1]} />
       </Layer>}
     </Mapbox>
   );

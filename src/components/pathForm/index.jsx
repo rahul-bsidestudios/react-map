@@ -13,6 +13,7 @@ const PathForm = (props) => {
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const { loading } = props;
 
   /**
    * @description reset the results and error
@@ -41,8 +42,8 @@ const PathForm = (props) => {
    */
   const getDistanceAndPath = async (token) => {
     try {
-      const response = await getPath(token);
-      if (response.status === 'in progress') {
+      const { status, total_distance, total_time, path, error } = await getPath(token);
+      if (status === 'in progress') {
         if (attempts < RETRY_LIMIT) {
           setAttempts(attempts + 1);
           return getDistanceAndPath(token);
@@ -54,21 +55,22 @@ const PathForm = (props) => {
         }
       }
       props.setLoading(false);
-      if (response.status === 'success') {
-        setDistance(response.total_distance);
-        setDuration(response.total_time);
-        props.createPath(response.path, origin, destination);
+      if (status === 'success') {
+        setDistance(total_distance);
+        setDuration(total_time);
+        props.createPath(path, origin, destination);
       }
       else {
-        setError(response.error);
+        setError(error);
       }
     }
     catch (err) {
       props.setLoading(false);
-      if (err.message && err.message.indexOf('500') > -1) {
+      const { message } = err;
+      if (message && message.indexOf('500') > -1) {
         setError(SERVER_ERROR);
       } else {
-        setError(err.message);
+        setError(message);
       }
     }
   }
@@ -94,10 +96,11 @@ const PathForm = (props) => {
       }
     }
     catch (err) {
-      if (err.message && err.message.indexOf('500') > -1) {
+      const { message } = err;
+      if (message && message.indexOf('500') > -1) {
         setError(SERVER_ERROR);
       } else {
-        setError(err.message);
+        setError(message);
       }
       props.setLoading(false);
     }
@@ -142,7 +145,8 @@ const PathForm = (props) => {
    * @param {object} e 
    */
   const changeOrigin = (e) => {
-    setOrigin(e.target.value);
+    const { value } = e.target;
+    setOrigin(value);
     setSubmitted(false);
   }
 
@@ -151,7 +155,8 @@ const PathForm = (props) => {
    * @param {object} e 
    */
   const changeDestination = (e) => {
-    setDestination(e.target.value);
+    const { value } = e.target;
+    setDestination(value);
     setSubmitted(false);
   }
 
@@ -190,11 +195,11 @@ const PathForm = (props) => {
       </div>}
       {error && <div className="text-danger error">{error}</div>}
       <div className="buttons">
-        <button className="btn btn-primary" type="button" disabled={props.loading} onClick={submit.bind(this)}>
-          {!props.loading && ((error || distance) ? 'Re-Submit' : 'Submit')}
-          {props.loading && 'Loading'}
+        <button className="btn btn-primary" type="button" disabled={loading} onClick={submit.bind(this)}>
+          {!loading && ((error || distance) ? 'Re-Submit' : 'Submit')}
+          {loading && 'Loading'}
         </button>
-        <button type="button" className="btn btn-secondary" disabled={props.loading} onClick={reset.bind(this)}>Reset</button>
+        <button type="button" className="btn btn-secondary" disabled={loading} onClick={reset.bind(this)}>Reset</button>
       </div>
     </form>
   );

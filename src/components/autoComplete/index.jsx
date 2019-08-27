@@ -7,6 +7,7 @@ import './autoComplete.css';
 const MapboxAutoComplete = (props) => {
   const [error, setError] = useState('');
   const [queryResults, setQueryResults] = useState([]);
+  const { inputId, inputClass, inputOnBlur, inputOnClick, inputOnFocus, placeholder, query } = props;
 
   /**
    * @description fetch maching results through mapbox api
@@ -14,11 +15,12 @@ const MapboxAutoComplete = (props) => {
    */
   const updateQuery = async (event) => {
     props.onChange(event);
-    if (event.target.value) {
+    const { value } = event.target;
+    if (value) {
       try {
-        const response = await getSuggestions(event.target.value);
+        const { features } = await getSuggestions(value);
         setError('');
-        setQueryResults(response.features);
+        setQueryResults(features);
       }
       catch (err) {
         setError(SUGGESTION_ERROR);
@@ -59,20 +61,20 @@ const MapboxAutoComplete = (props) => {
    */
   return (
     <div>
-      <input placeholder={props.placeholder || 'Search'}
-        id={props.inputId}
-        onClick={props.inputOnClick}
-        onBlur={props.inputOnBlur}
-        onFocus={props.inputOnFocus}
-        className={props.inputClass ?
-          props.inputClass + ' react-mapbox-ac-input'
+      <input placeholder={placeholder || 'Search'}
+        id={inputId}
+        onClick={inputOnClick}
+        onBlur={inputOnBlur}
+        onFocus={inputOnFocus}
+        className={inputClass ?
+          inputClass + ' react-mapbox-ac-input'
           : 'react-mapbox-ac-input'}
         onChange={updateQuery.bind(this)}
-        value={props.query}
+        value={query}
         type='text'
         autoComplete="off"
       />
-      {props.query && <button type="button" className="btn close-icon" onClick={clearSearch.bind(this)} >X</button>}
+      {query && <button type="button" className="btn close-icon" onClick={clearSearch.bind(this)} >X</button>}
       <span>
         <div className='react-mapbox-ac-menu'
           style={queryResults.length > 0 || error ? { display: 'block' }
@@ -80,17 +82,16 @@ const MapboxAutoComplete = (props) => {
           onClick={resetSearch}>
           {
             queryResults.map((place, i) => {
+              const { place_name, center, text } = place;
               return (
                 <div className='react-mapbox-ac-suggestion'
                   onClick={onSuggestionSelect}
-                  key={place.place_name}
-                  data-suggestion={place.place_name}
-                  data-lng={place.center[0]}
-                  data-lat={place.center[1]}
-                  data-text={place.text}>
-
-                  {place.place_name}
-
+                  key={place_name}
+                  data-suggestion={place_name}
+                  data-lng={center[0]}
+                  data-lat={center[1]}
+                  data-text={text}>
+                  {place_name}
                 </div>
               )
             })

@@ -2,7 +2,6 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import mockAxios from 'jest-mock-axios';
 import MapboxAutoComplete from '../components/autoComplete';
-import { MAPBOX_KEY } from '../constants';
 
 let component = null;
 const mockSelect = jest.fn();
@@ -10,7 +9,7 @@ const mockClear = jest.fn();
 const mockChange = jest.fn();
 
 beforeAll(() => {
-  component = shallow(<MapboxAutoComplete query='' publicKey={MAPBOX_KEY} onSuggestionSelect={mockSelect} onChange={mockChange} clear={mockClear} />);
+  component = shallow(<MapboxAutoComplete query='' onSuggestionSelect={mockSelect} onChange={mockChange} clear={mockClear} />);
 });
 
 afterEach(() => {
@@ -36,7 +35,6 @@ test('show clear buttons', () => {
   mockAxios.mockResponse({
     data: {
       features: [{
-        //eslint-disable-next-line
         place_name: 'Innocenter',
         text: 'Innocenter',
         center: [0, 1]

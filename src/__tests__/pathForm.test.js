@@ -72,7 +72,6 @@ describe('set origin and drop off then submit', () => {
   });
   test('call clear', () => {
     expect(mockClear.mock.calls.length).toBe(3);
-    //eslint-disable-next-line
     mockAxios.mockResponse({ data: { status: 'success', total_time: 1000, total_distance: 10000, path: [['22.2855200', '114.1576900'], ['22.2855210', '114.1576910'], ['22.2855220', '114.1576920']] } });
   });
   test('set loader', () => {
