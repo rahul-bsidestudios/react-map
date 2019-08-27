@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders AutoComplete component 1`] = `
+<div>
+  <input
+    autoComplete="off"
+    className="react-mapbox-ac-input"
+    id={null}
+    onBlur={null}
+    onChange={[Function]}
+    onClick={null}
+    onFocus={null}
+    placeholder="Search"
+    type="text"
+  />
+  <span>
+    <div
+      className="react-mapbox-ac-menu"
+      onClick={[Function]}
+      style={
+        Object {
+          "display": "none",
+        }
+      }
+    >
+      
+    </div>
+  </span>
+</div>
+`;

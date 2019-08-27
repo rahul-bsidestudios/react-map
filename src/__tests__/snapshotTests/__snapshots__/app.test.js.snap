@@ -1,0 +1,124 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders App component 1`] = `
+<div
+  className="container-fluid"
+>
+  <div
+    className="row"
+  >
+    <div
+      className="col-sm-4"
+    >
+      <form
+        className="filters"
+      >
+        <div
+          className="form-group"
+        >
+          <label>
+            Starting location
+          </label>
+          <div>
+            <input
+              autoComplete="off"
+              className="form-control search react-mapbox-ac-input"
+              id="origin"
+              onBlur={null}
+              onChange={[Function]}
+              onClick={null}
+              onFocus={null}
+              placeholder="Search"
+              type="text"
+              value=""
+            />
+            
+            <span>
+              <div
+                className="react-mapbox-ac-menu"
+                onClick={[Function]}
+                style={
+                  Object {
+                    "display": "none",
+                  }
+                }
+              >
+                
+              </div>
+            </span>
+          </div>
+        </div>
+        <div
+          className="form-group last-control"
+        >
+          <label>
+            Drop-off location
+          </label>
+          <div>
+            <input
+              autoComplete="off"
+              className="form-control search react-mapbox-ac-input"
+              id="destination"
+              onBlur={null}
+              onChange={[Function]}
+              onClick={null}
+              onFocus={null}
+              placeholder="Search"
+              type="text"
+              value=""
+            />
+            
+            <span>
+              <div
+                className="react-mapbox-ac-menu"
+                onClick={[Function]}
+                style={
+                  Object {
+                    "display": "none",
+                  }
+                }
+              >
+                
+              </div>
+            </span>
+          </div>
+        </div>
+        
+        
+        <div
+          className="buttons"
+        >
+          <button
+            className="btn btn-primary"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Submit
+          </button>
+          <button
+            className="btn btn-secondary"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Reset
+          </button>
+        </div>
+      </form>
+    </div>
+    <div
+      className="col-sm-8"
+    >
+      <div
+        style={
+          Object {
+            "height": "100vh",
+            "width": "100%",
+          }
+        }
+      />
+    </div>
+  </div>
+</div>
+`;

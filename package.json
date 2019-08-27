@@ -15,7 +15,7 @@
   "scripts": {
     "start": "eslint src/**/*.js src/**/*.jsx --fix && react-scripts start",
     "build": "eslint src/**/*.js src/**/*.jsx --fix && react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --coverage --coverageDirectory=output/coverage/jest",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.js src/**/*.jsx"
   },

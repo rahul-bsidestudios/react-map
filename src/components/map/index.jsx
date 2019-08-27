@@ -19,7 +19,7 @@ const Map = (props) => {
   const mapStyle = 'mapbox://styles/mapbox/streets-v8';
 
   useEffect(() => {
-    if (props.path) {
+    if (props.path && map) {
       const boundingBox = bbox(lineString(props.path));
       map.fitBounds(boundingBox, { padding: 30 });
     }
