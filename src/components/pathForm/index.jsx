@@ -158,7 +158,7 @@ const PathForm = (props) => {
         <label>Drop-off location</label>
         <MapboxAutoComplete
           inputClass='form-control search'
-          onSuggestionSelect={(destination) => setOrigin(destination)}
+          onSuggestionSelect={(destination) => setDestination(destination)}
           clear={clearDestination}
           query={destination}
           onChange={changeDestination.bind(this)}
