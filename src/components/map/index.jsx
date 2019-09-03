@@ -16,7 +16,7 @@ const Map = (props) => {
     height: '100vh',
     width: '100%'
   };
-  const { path, origin, destination } = props;
+  const { path, origin, destination, setLoading } = props;
 
   useEffect(() => {
     if (path && map) {
@@ -24,6 +24,15 @@ const Map = (props) => {
       map.fitBounds(boundingBox, { padding: 30 });
     }
   }, [map, path]);
+  
+  /**
+   * @description initialize map after mapbox instance loaded
+   * @param {object} map 
+   */
+  const onMapLoaded = (map) => {
+    setMap(map);
+    setLoading(false);
+  }
 
   /**
    * @description render map using mapbox
@@ -32,7 +41,7 @@ const Map = (props) => {
     <Mapbox
       center={center}
       zoom={zoom}
-      onStyleLoad={(map) => setMap(map)}
+      onStyleLoad={onMapLoaded}
       //eslint-disable-next-line
       style={MAP_STYLE}
       containerStyle={containerStyle}>
@@ -65,6 +74,7 @@ const Map = (props) => {
 Map.propTypes = {
   path: PropTypes.array,
   origin: PropTypes.string,
+  setLoading: PropTypes.func,
   destination: PropTypes.string
 }
 

@@ -17,7 +17,7 @@ test('render container', () => {
 });
 
 test('does not render loader', () => {
-  expect(component.find('Loader').length).toEqual(0);
+  expect(component.find('Loader').length).toEqual(1);
 });
 
 test('render a row', () => {

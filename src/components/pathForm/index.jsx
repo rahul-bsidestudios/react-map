@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { getToken, getPath } from '../../services';
 import MapboxAutoComplete from '../autoComplete';
-import { SERVER_ERROR, RETRY_LIMIT, RETRY_LIMIT_ERROR } from '../../constants';
+import { SERVER_ERROR, RETRY_LIMIT, RETRY_LIMIT_ERROR, PROGRESS_STATUS, SUCCESS_STATUS } from '../../constants';
 import './pathForm.css';
 
 const PathForm = (props) => {
@@ -35,13 +35,27 @@ const PathForm = (props) => {
   }
 
   /**
+   * @description handle the error
+   * @param {object} err 
+   */
+  const handleError = (err) => {
+    const { message } = err;
+    if (!message || message.indexOf('500') > -1) {
+      setError(SERVER_ERROR);
+    } else {
+      setError(message);
+    }
+    props.setLoading(false);
+  }
+
+  /**
    * @description get the distance and time through the api and passing the path
    * @param {string} token 
    */
   const getDistanceAndPath = async (token, attempts) => {
     try {
       const { status, total_distance: totalDistance, total_time: totalTime, path, error } = await getPath(token);
-      if (status === 'in progress') {
+      if (status === PROGRESS_STATUS) {
         if (attempts < RETRY_LIMIT) {
           return getDistanceAndPath(token, attempts + 1);
         }
@@ -52,7 +66,7 @@ const PathForm = (props) => {
         }
       }
       props.setLoading(false);
-      if (status === 'success') {
+      if (status === SUCCESS_STATUS) {
         setDistance(totalDistance);
         setDuration(totalTime);
         props.createPath(path, origin, destination);
@@ -62,13 +76,7 @@ const PathForm = (props) => {
       }
     }
     catch (err) {
-      props.setLoading(false);
-      const { message } = err;
-      if (!message || message.indexOf('500') > -1) {
-        setError(SERVER_ERROR);
-      } else {
-        setError(message);
-      }
+      handleError(err);
     }
   }
 
@@ -92,13 +100,7 @@ const PathForm = (props) => {
       }
     }
     catch (err) {
-      const { message } = err;
-      if (!message || message.indexOf('500') > -1) {
-        setError(SERVER_ERROR);
-      } else {
-        setError(message);
-      }
-      props.setLoading(false);
+      handleError(err);
     }
   }
 
@@ -151,6 +153,7 @@ const PathForm = (props) => {
           clear={clearOrigin}
           query={origin}
           onChange={changeOrigin.bind(this)}
+          placeholder='Start Location'
         />
         {submitted && !origin && <div className="text-danger">Starting location is required</div>}
       </div>
@@ -162,6 +165,7 @@ const PathForm = (props) => {
           clear={clearDestination}
           query={destination}
           onChange={changeDestination.bind(this)}
+          placeholder='Drop-off Location'
         />
         {submitted && !destination && <div className="text-danger">Drop-off location is required</div>}
       </div>

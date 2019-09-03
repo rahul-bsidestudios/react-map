@@ -5,6 +5,11 @@ exports[`renders App component 1`] = `
   className="container-fluid"
 >
   <div
+    className="loading"
+  >
+    Loading…
+  </div>
+  <div
     className="row"
   >
     <div
@@ -25,7 +30,7 @@ exports[`renders App component 1`] = `
               className="form-control search react-mapbox-ac-input"
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="Search"
+              placeholder="Start Location"
               type="text"
               value=""
             />
@@ -57,7 +62,7 @@ exports[`renders App component 1`] = `
               className="form-control search react-mapbox-ac-input"
               onChange={[Function]}
               onKeyDown={[Function]}
-              placeholder="Search"
+              placeholder="Drop-off Location"
               type="text"
               value=""
             />
@@ -84,15 +89,15 @@ exports[`renders App component 1`] = `
         >
           <button
             className="btn btn-primary"
-            disabled={false}
+            disabled={true}
             onClick={[Function]}
             type="button"
           >
-            Submit
+            Loading
           </button>
           <button
             className="btn btn-secondary"
-            disabled={false}
+            disabled={true}
             onClick={[Function]}
             type="button"
           >

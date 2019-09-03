@@ -15,8 +15,8 @@ const convertPath = path => {
   return arr;
 }
 
-const App = (props) => {
-  const [loading, setLoading] = useState(false);
+const App = () => {
+  const [loading, setLoading] = useState(true);
   const [path, setPath] = useState(null);
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
@@ -57,7 +57,7 @@ const App = (props) => {
           />
         </div>
         <div className="col-sm-8">
-          <Map path={path} origin={origin} destination={destination} />
+          <Map path={path} origin={origin} destination={destination} setLoading={(val) => setLoading(val)} />
         </div>
       </div>
     </div>
