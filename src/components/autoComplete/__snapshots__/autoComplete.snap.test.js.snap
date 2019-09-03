@@ -5,11 +5,8 @@ exports[`renders AutoComplete component 1`] = `
   <input
     autoComplete="off"
     className="react-mapbox-ac-input"
-    id={null}
-    onBlur={null}
     onChange={[Function]}
-    onClick={null}
-    onFocus={null}
+    onKeyDown={[Function]}
     placeholder="Search"
     type="text"
   />

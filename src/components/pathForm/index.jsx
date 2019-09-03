@@ -9,7 +9,6 @@ const PathForm = (props) => {
   const [origin, setOrigin] = useState('');
   const [destination, setDestination] = useState('');
   const [error, setError] = useState('');
-  const [attempts, setAttempts] = useState(0);
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -30,7 +29,6 @@ const PathForm = (props) => {
    */
   const reset = () => {
     setSubmitted(false);
-    setAttempts(0);
     setOrigin('');
     setDestination('');
     resetResults();
@@ -40,13 +38,12 @@ const PathForm = (props) => {
    * @description get the distance and time through the api and passing the path
    * @param {string} token 
    */
-  const getDistanceAndPath = async (token) => {
+  const getDistanceAndPath = async (token, attempts) => {
     try {
-      const { status, total_distance, total_time, path, error } = await getPath(token);
+      const { status, total_distance: totalDistance, total_time: totalTime, path, error } = await getPath(token);
       if (status === 'in progress') {
         if (attempts < RETRY_LIMIT) {
-          setAttempts(attempts + 1);
-          return getDistanceAndPath(token);
+          return getDistanceAndPath(token, attempts + 1);
         }
         else {
           props.setLoading(false);
@@ -56,8 +53,8 @@ const PathForm = (props) => {
       }
       props.setLoading(false);
       if (status === 'success') {
-        setDistance(total_distance);
-        setDuration(total_time);
+        setDistance(totalDistance);
+        setDuration(totalTime);
         props.createPath(path, origin, destination);
       }
       else {
@@ -67,7 +64,7 @@ const PathForm = (props) => {
     catch (err) {
       props.setLoading(false);
       const { message } = err;
-      if (message && message.indexOf('500') > -1) {
+      if (!message || message.indexOf('500') > -1) {
         setError(SERVER_ERROR);
       } else {
         setError(message);
@@ -88,8 +85,7 @@ const PathForm = (props) => {
     try {
       const result = await getToken(origin, destination);
       if (result.token) {
-        setAttempts(0);
-        getDistanceAndPath(result.token);
+        getDistanceAndPath(result.token, 0);
       }
       else {
         props.setLoading(false);
@@ -97,7 +93,7 @@ const PathForm = (props) => {
     }
     catch (err) {
       const { message } = err;
-      if (message && message.indexOf('500') > -1) {
+      if (!message || message.indexOf('500') > -1) {
         setError(SERVER_ERROR);
       } else {
         setError(message);
@@ -111,7 +107,6 @@ const PathForm = (props) => {
    */
   const clearOrigin = () => {
     setOrigin('');
-    setAttempts(0);
     resetResults();
   }
 
@@ -120,24 +115,7 @@ const PathForm = (props) => {
    */
   const clearDestination = () => {
     setDestination('');
-    setAttempts(0);
     resetResults();
-  }
-
-  /**
-   * @description set origin
-   * @param {string} result 
-   */
-  const originSelect = (result) => {
-    setOrigin(result);
-  }
-
-  /**
-   * @description set destination
-   * @param {string} result 
-   */
-  const destinationSelect = (result) => {
-    setDestination(result);
   }
 
   /**
@@ -164,13 +142,12 @@ const PathForm = (props) => {
    * @description render the form
    */
   return (
-    <form className="filters">
+    <div className="filters">
       <div className="form-group">
         <label>Starting location</label>
         <MapboxAutoComplete
           inputClass='form-control search'
-          onSuggestionSelect={originSelect}
-          inputId='origin'
+          onSuggestionSelect={(origin) => setOrigin(origin)}
           clear={clearOrigin}
           query={origin}
           onChange={changeOrigin.bind(this)}
@@ -181,8 +158,7 @@ const PathForm = (props) => {
         <label>Drop-off location</label>
         <MapboxAutoComplete
           inputClass='form-control search'
-          inputId='destination'
-          onSuggestionSelect={destinationSelect}
+          onSuggestionSelect={(destination) => setOrigin(destination)}
           clear={clearDestination}
           query={destination}
           onChange={changeDestination.bind(this)}
@@ -201,7 +177,7 @@ const PathForm = (props) => {
         </button>
         <button type="button" className="btn btn-secondary" disabled={loading} onClick={reset.bind(this)}>Reset</button>
       </div>
-    </form>
+    </div>
   );
 }
 

@@ -5,3 +5,4 @@ export const SERVER_ERROR = 'Internal server error';
 export const SUGGESTION_ERROR = 'There was a problem retrieving data from mapbox';
 export const RETRY_LIMIT = 2;
 export const RETRY_LIMIT_ERROR = 'Server took too long to respond, please re-submit';
+export const MAP_STYLE = 'mapbox://styles/mapbox/streets-v8';

@@ -3,7 +3,7 @@
 	z-index: 9999;
 	background-color: #fff;
 	border: 1px solid #ccc;
-	width: auto;
+	width: 95%;
 }
 
 .react-mapbox-ac-input {
@@ -16,16 +16,18 @@
 	padding: .5rem 1.5rem;
 }
 
-.react-mapbox-ac-suggestion:hover {
+.react-mapbox-ac-suggestion.active, .react-mapbox-ac-suggestion:hover {
 	background-color: #58a;
 }
 
 .close-icon {
   position: absolute;
-  top: 30px;
+	top: 30px;
+	background: none;
   right: -15px;
 	cursor: pointer;
 	z-index: 1;
+	font-weight: bold !important;
 }
 
 /* clears the 'X' from Internet Explorer */

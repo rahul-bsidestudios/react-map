@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import Map from '../../components/map';
+import Map from './index';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   Map: function () {

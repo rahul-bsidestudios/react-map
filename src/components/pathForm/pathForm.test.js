@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import mockAxios from 'jest-mock-axios';
-import PathForm from '../components/pathForm';
+import PathForm from './index';
 
 let component = null;
 const mockPath = jest.fn();
@@ -13,7 +13,7 @@ beforeAll(() => {
 });
 
 test('render filter form', () => {
-  expect(component.find('form.filters').length).toEqual(1);
+  expect(component.find('.filters').length).toEqual(1);
 });
 
 test('render 2 autocomplete', () => {
@@ -72,14 +72,56 @@ describe('set origin and drop off then submit', () => {
   });
   test('call clear', () => {
     expect(mockClear.mock.calls.length).toBe(3);
+    mockAxios.mockResponse({ data: { status: 'in progress'}});
+  });
+  test('second attempt', () => {
+    mockAxios.mockResponse({ data: { status: 'in progress'}});
+  });
+  test('third attempt', () => {
+    mockAxios.mockResponse({ data: { status: 'in progress'}});
+  });
+  test('too many attempts error', () => {
+    expect(mockLoading.mock.calls.length).toBe(2);
+    expect(component.find('.error').length).toEqual(1);
+  });
+  test('submit again', () => {
+    component.find('.btn-primary').simulate('click');
+    expect(component.find('.error').length).toEqual(0);
+    const firstRequest = mockAxios.lastReqGet();
+    mockAxios.mockResponse({ data: { token: '123' } }, firstRequest);
+  });
+  test('throw error', () => {
+    mockAxios.mockError({ message: '500 Internal server error'});
+  });
+  test('show error', () => {
+    expect(component.find('.error').length).toEqual(1);
+  });
+  test('re-submit', () => {
+    component.find('.btn-primary').simulate('click');
+    expect(component.find('.error').length).toEqual(0);
+    const firstRequest = mockAxios.lastReqGet();
+    mockAxios.mockResponse({ data: { token: '123' } }, firstRequest);
+  });
+  test('return error', () => {
+    mockAxios.mockResponse({ data: {error: 'Location not accessible'}});
+  });
+  test('show error', () => {
+    expect(component.find('.error').length).toEqual(1);
+  });
+  test('re-submit once more', () => {
+    component.find('.btn-primary').simulate('click');
+    expect(component.find('.error').length).toEqual(0);
+    const firstRequest = mockAxios.lastReqGet();
+    mockAxios.mockResponse({ data: { token: '123' } }, firstRequest);
+  });
+  test('call clear', () => {
+    expect(mockClear.mock.calls.length).toBe(6);
     mockAxios.mockResponse({ data: { status: 'success', total_time: 1000, total_distance: 10000, path: [['22.2855200', '114.1576900'], ['22.2855210', '114.1576910'], ['22.2855220', '114.1576920']] } });
   });
   test('set loader', () => {
-    expect(mockLoading.mock.calls.length).toBe(2);
+    expect(mockLoading.mock.calls.length).toBe(8);
   });
   test('get path', () => {
     expect(mockPath.mock.calls.length).toBe(1);
   });
 });
-
-

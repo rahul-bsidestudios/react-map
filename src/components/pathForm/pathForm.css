@@ -2,10 +2,8 @@
   padding-top: 15px;
 }
 
-@media(max-width:767px) {
-  .filters .buttons {
-    margin-bottom: 20px;
-  }
+.filters .buttons {
+  margin-bottom: 20px;
 }
 
 .filters .buttons button {
@@ -17,7 +15,7 @@
 }
 
 .filters .last-control {
-  margin-bottom: 70px;
+  margin-bottom: 40px;
   margin-top: 30px;
 }
 

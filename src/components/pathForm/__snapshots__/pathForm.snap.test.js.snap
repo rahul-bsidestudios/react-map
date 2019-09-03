@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders PathForm component 1`] = `
-<form
+<div
   className="filters"
 >
   <div
@@ -14,11 +14,8 @@ exports[`renders PathForm component 1`] = `
       <input
         autoComplete="off"
         className="form-control search react-mapbox-ac-input"
-        id="origin"
-        onBlur={null}
         onChange={[Function]}
-        onClick={null}
-        onFocus={null}
+        onKeyDown={[Function]}
         placeholder="Search"
         type="text"
         value=""
@@ -49,11 +46,8 @@ exports[`renders PathForm component 1`] = `
       <input
         autoComplete="off"
         className="form-control search react-mapbox-ac-input"
-        id="destination"
-        onBlur={null}
         onChange={[Function]}
-        onClick={null}
-        onFocus={null}
+        onKeyDown={[Function]}
         placeholder="Search"
         type="text"
         value=""
@@ -94,11 +88,11 @@ exports[`renders PathForm component 1`] = `
       Reset
     </button>
   </div>
-</form>
+</div>
 `;
 
 exports[`renders Pthform component with loading property 1`] = `
-<form
+<div
   className="filters"
 >
   <div
@@ -111,11 +105,8 @@ exports[`renders Pthform component with loading property 1`] = `
       <input
         autoComplete="off"
         className="form-control search react-mapbox-ac-input"
-        id="origin"
-        onBlur={null}
         onChange={[Function]}
-        onClick={null}
-        onFocus={null}
+        onKeyDown={[Function]}
         placeholder="Search"
         type="text"
         value=""
@@ -146,11 +137,8 @@ exports[`renders Pthform component with loading property 1`] = `
       <input
         autoComplete="off"
         className="form-control search react-mapbox-ac-input"
-        id="destination"
-        onBlur={null}
         onChange={[Function]}
-        onClick={null}
-        onFocus={null}
+        onKeyDown={[Function]}
         placeholder="Search"
         type="text"
         value=""
@@ -193,5 +181,5 @@ exports[`renders Pthform component with loading property 1`] = `
       Reset
     </button>
   </div>
-</form>
+</div>
 `;

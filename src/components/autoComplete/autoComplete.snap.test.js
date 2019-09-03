@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import MapboxAutoComplete from '../../components/autoComplete';
+import MapboxAutoComplete from './index';
 
 const mockSelect = jest.fn();
 const mockClear = jest.fn();

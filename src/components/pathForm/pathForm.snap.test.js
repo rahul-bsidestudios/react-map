@@ -1,6 +1,6 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
-import PathForm from '../../components/pathForm';
+import PathForm from './index';
 
 const mockPath = jest.fn();
 const mockClear = jest.fn();

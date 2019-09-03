@@ -10,7 +10,7 @@ exports[`renders App component 1`] = `
     <div
       className="col-sm-4"
     >
-      <form
+      <div
         className="filters"
       >
         <div
@@ -23,11 +23,8 @@ exports[`renders App component 1`] = `
             <input
               autoComplete="off"
               className="form-control search react-mapbox-ac-input"
-              id="origin"
-              onBlur={null}
               onChange={[Function]}
-              onClick={null}
-              onFocus={null}
+              onKeyDown={[Function]}
               placeholder="Search"
               type="text"
               value=""
@@ -58,11 +55,8 @@ exports[`renders App component 1`] = `
             <input
               autoComplete="off"
               className="form-control search react-mapbox-ac-input"
-              id="destination"
-              onBlur={null}
               onChange={[Function]}
-              onClick={null}
-              onFocus={null}
+              onKeyDown={[Function]}
               placeholder="Search"
               type="text"
               value=""
@@ -105,7 +99,7 @@ exports[`renders App component 1`] = `
             Reset
           </button>
         </div>
-      </form>
+      </div>
     </div>
     <div
       className="col-sm-8"

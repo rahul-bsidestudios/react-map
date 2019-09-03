@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
 import { lineString, bbox } from '@turf/turf';
-import { MAPBOX_KEY } from '../../constants';
+import { MAPBOX_KEY, MAP_STYLE } from '../../constants';
 
 const Mapbox = ReactMapboxGl({
   accessToken: MAPBOX_KEY
@@ -16,7 +16,6 @@ const Map = (props) => {
     height: '100vh',
     width: '100%'
   };
-  const mapStyle = 'mapbox://styles/mapbox/streets-v8';
   const { path, origin, destination } = props;
 
   useEffect(() => {
@@ -26,10 +25,6 @@ const Map = (props) => {
     }
   }, [map, path]);
 
-  const onMapLoaded = (mapObject) => {
-    setMap(mapObject);
-  }
-
   /**
    * @description render map using mapbox
    */
@@ -37,9 +32,9 @@ const Map = (props) => {
     <Mapbox
       center={center}
       zoom={zoom}
-      onStyleLoad={onMapLoaded.bind(this)}
+      onStyleLoad={(map) => setMap(map)}
       //eslint-disable-next-line
-      style={mapStyle}
+      style={MAP_STYLE}
       containerStyle={containerStyle}>
       {path && <Layer
         type="line"

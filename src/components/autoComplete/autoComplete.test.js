@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import mockAxios from 'jest-mock-axios';
-import MapboxAutoComplete from '../components/autoComplete';
+import MapboxAutoComplete from './index';
 
 let component = null;
 const mockSelect = jest.fn();

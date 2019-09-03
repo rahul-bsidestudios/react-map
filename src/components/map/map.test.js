@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Map from '../components/map';
+import Map from './index';
 
 jest.mock('mapbox-gl/dist/mapbox-gl', () => ({
   Map: () => ({})

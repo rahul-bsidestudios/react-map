@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PathForm from '../../components/pathForm';
 import Loader from '../../components/loader';
 import Map from '../../components/map';
-import './app.css';
 
 /**
  * @description convert coordinaties into float values

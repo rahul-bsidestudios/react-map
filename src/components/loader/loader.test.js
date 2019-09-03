@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Loader from '../components/loader';
+import Loader from './index';
 
 test('render loading div', () => {
   const component = shallow(<Loader />);
